@@ -36,7 +36,7 @@ class GestionPerfiles:
         cursor.close()
         conn.close()
         if row:
-            return Perfil(**row).to_dict()
+            return Perfil(**row)
         return None
 
     @staticmethod
@@ -48,7 +48,7 @@ class GestionPerfiles:
         cursor.close()
         conn.close()
         if row:
-            return Perfil(**row).to_dict()
+            return Perfil(**row)
         return None
 
     @staticmethod

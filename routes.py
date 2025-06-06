@@ -7,6 +7,7 @@ from modelos.ofertas import Oferta
 from modelos.ofertas_aplicadas import OfertaAplicada # Si lo usas
 from gestionUsuarios import GestionUsuarios
 from gestionPerfiles import GestionPerfiles
+import traceback
 # Importa otras clases de gestión que crees (Empresas, Ofertas, etc.)
 # from datetime import datetime # No es necesario si no se usa directamente en rutas
 
@@ -44,10 +45,13 @@ def crear_perfil(perfil: Perfil):
 
 @router.get("/perfiles/{perfil_id}", response_model=Perfil)
 def obtener_perfil(perfil_id: int):
-    perfil = GestionPerfiles.obtener_perfil_por_id(perfil_id)
-    if not perfil:
-        raise HTTPException(status_code=404, detail="Perfil no encontrado")
-    return perfil
+    try:
+        perfiles = GestionPerfiles.obtener_perfil_por_id(perfil_id)
+        if not perfiles:
+            raise HTTPException(status_code=404, detail="Perfil no encontrado")
+        return perfiles
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error al buscar perfil: {e}")
 
 @router.get("/perfiles/usuario/{usuario_id}", response_model=Perfil)
 def obtener_perfil_por_usuario(usuario_id: int):
